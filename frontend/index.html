@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f4f0e7" />
+  <title>Stock Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <nav class="navbar">
+    <a class="logo" href="#" aria-label="Stock Tracker home">
+      <span class="logo-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span>stock<span class="logo-accent">tracker</span></span>
+    </a>
+    <div class="nav-user">
+      <span id="studentName" class="student-name">Student: Rahul</span>
+      <span class="wallet"><span class="wallet-label">Available balance</span><strong>₹<span id="virtualMoney">100000</span></strong></span>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="welcome">
+      <div>
+        <p class="eyebrow">YOUR PERSONAL MARKET SPACE</p>
+        <h1>Invest with <span>intention.</span></h1>
+        <p class="welcome-copy">A calmer way to follow the market, practice trades, and track your progress.</p>
+      </div>
+      <div class="market-status"><span class="status-dot"></span><span>Practice portfolio</span></div>
+    </header>
+
+    <nav class="tabs" aria-label="Main sections">
+     <button class="tab active" data-tab="dashboard" type="button">Overview</button>
+     <button class="tab" data-tab="search" type="button">Explore stocks</button>
+     <button class="tab" data-tab="trade" type="button">Trade</button>
+     <button class="tab" data-tab="portfolio" type="button">Portfolio</button>
+     <button class="tab" data-tab="transactions" type="button">Activity</button>
+     <button class="tab" data-tab="learn" type="button">💡 Tricks & Tips</button>
+    </nav>
+    <section id="dashboard" class="tab-content active">
+      <div class="section-heading">
+        <div><p class="eyebrow">AT A GLANCE</p><h2>Market overview</h2></div>
+        <span class="section-note">Your market, made clearer</span>
+      </div>
+      <div class="stat-cards">
+        <div class="card card-cream"><div class="card-label">Stocks listed</div><h3 id="totalStocks">0</h3><p>Available to explore</p><span class="card-orb orb-sage"></span></div>
+        <div class="card card-sage green"><div class="card-label">Gainers today</div><h3 id="gainers">0</h3><p>Moving upward</p><span class="card-orb orb-green"></span></div>
+        <div class="card card-rose red"><div class="card-label">Losers today</div><h3 id="losers">0</h3><p>Under yesterday's close</p><span class="card-orb orb-rose"></span></div>
+        <div class="card card-lavender blue"><div class="card-label">Portfolio value</div><h3 id="portfolioValue">₹0</h3><p>Current holdings value</p><span class="card-orb orb-lavender"></span></div>
+      </div>
+      <div class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">LIVE FROM YOUR DATABASE</p><h3>All stocks</h3></div><span class="panel-chip">Market list</span></div>
+        <div class="table-wrap"><table id="marketTable"><thead><tr><th>Symbol</th><th>Company</th><th>Price (₹)</th><th>Previous (₹)</th><th>Change</th><th>Trend</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="search" class="tab-content">
+      <div class="section-heading"><div><p class="eyebrow">FIND YOUR NEXT FOCUS</p><h2>Explore stocks</h2></div><span class="section-note">Search, sort, and compare</span></div>
+      <div class="panel">
+        <div class="controls">
+          <label class="search-field"><span class="field-caption">Search market</span><input type="text" id="searchBox" placeholder="Try a symbol or company name, e.g. TCS" /></label>
+          <label class="sort-field"><span class="field-caption">Sort results</span><select id="sortSelect"><option value="">Default order</option><option value="price_asc">Price: low to high</option><option value="price_desc">Price: high to low</option><option value="change_desc">Change: high to low</option><option value="name_asc">Company name: A–Z</option></select></label>
+        </div>
+        <div class="table-wrap"><table id="searchTable"><thead><tr><th>Symbol</th><th>Company</th><th>Price (₹)</th><th>Change</th><th>Chart</th></tr></thead><tbody></tbody></table></div>
+      </div>
+      <div class="panel chart-panel"><div class="panel-heading"><div><p class="eyebrow">PRICE MOVEMENT</p><h3>Price history <span class="chart-title-dash">/</span> <span id="chartStockName">Select a stock</span></h3></div><span class="panel-chip">Historical view</span></div><div class="chart-wrap"><canvas id="priceChart" height="110"></canvas></div></div>
+    </section>
+
+    <section id="trade" class="tab-content">
+      <div class="section-heading"><div><p class="eyebrow">LEARN BY DOING</p><h2>Make a trade</h2></div><span class="section-note">Simulated trading · no real money</span></div>
+      <div class="trade-layout">
+        <div class="panel trade-panel">
+          <div class="panel-heading"><div><p class="eyebrow">ORDER DETAILS</p><h3>Place an order</h3></div><span class="trade-icon" aria-hidden="true">↗</span></div>
+          <div class="form-group"><label for="tradeSymbol">Stock symbol</label><input type="text" id="tradeSymbol" placeholder="e.g. TCS" autocomplete="off" /></div>
+          <div class="form-group"><label for="tradeQty">Quantity</label><input type="number" id="tradeQty" min="1" value="1" /></div>
+          <div class="form-group"><label for="tradePrice">Price per share</label><div class="input-affix"><span>₹</span><input type="number" id="tradePrice" readonly placeholder="Auto-filled" /></div><p class="input-hint">Price fills in when you enter a listed symbol.</p></div>
+          <div class="trade-buttons"><button class="btn green" onclick="doTrade('BUY')" type="button">Buy shares <span>↗</span></button><button class="btn red" onclick="doTrade('SELL')" type="button">Sell shares <span>↘</span></button></div>
+          <div id="tradeMsg" class="trade-msg" role="status" aria-live="polite"></div>
+        </div>
+        <div class="panel recent-panel"><div class="panel-heading"><div><p class="eyebrow">YOUR LATEST MOVES</p><h3>Recent transactions</h3></div><span class="panel-chip">Last 5</span></div><ul id="recentStack" class="stack-list"></ul><p class="helper-copy">Every buy and sell is recorded in your activity history.</p></div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="tab-content">
+      <div class="section-heading"><div><p class="eyebrow">YOUR PROGRESS, IN VIEW</p><h2>My portfolio</h2></div><span class="section-note">Performance updates with market prices</span></div>
+      <div class="stat-cards portfolio-stats">
+        <div class="card card-cream blue"><div class="card-label">Total investment</div><h3 id="invAmount">₹0</h3><p>Cost of current holdings</p></div>
+        <div class="card card-sage green"><div class="card-label">Current value</div><h3 id="currValue">₹0</h3><p>Market value of holdings</p></div>
+        <div class="card card-lavender" id="plCard"><div class="card-label">Profit / loss</div><h3 id="plAmount">₹0</h3><p>Unrealised portfolio result</p></div>
+      </div>
+      <div class="panel"><div class="panel-heading"><div><p class="eyebrow">WHAT YOU OWN</p><h3>Holdings</h3></div><span class="panel-chip">By stock</span></div><div class="table-wrap"><table id="portfolioTable"><thead><tr><th>Symbol</th><th>Qty</th><th>Avg. buy (₹)</th><th>Current (₹)</th><th>Invested (₹)</th><th>Current value (₹)</th><th>P/L (₹)</th></tr></thead><tbody></tbody></table></div></div>
+      <div class="panel chart-panel"><div class="panel-heading"><div><p class="eyebrow">PERFORMANCE BREAKDOWN</p><h3>Profit / loss by stock</h3></div><span class="panel-chip">₹ INR</span></div><div class="chart-wrap"><canvas id="plChart" height="120"></canvas></div></div>
+    </section>
+
+    <section id="transactions" class="tab-content">
+      <div class="section-heading"><div><p class="eyebrow">YOUR TRADING JOURNAL</p><h2>Transaction history</h2></div><span class="section-note">A complete record of your activity</span></div>
+      <div class="panel"><div class="panel-heading"><div><p class="eyebrow">ALL ACTIVITY</p><h3>Trade log</h3></div><span class="panel-chip">Linked-list view</span></div><div class="table-wrap"><table id="txnTable"><thead><tr><th>#</th><th>Type</th><th>Symbol</th><th>Qty</th><th>Price (₹)</th><th>Total (₹)</th><th>Date</th></tr></thead><tbody></tbody></table></div></div>
+    </section>
+    <!-- ===================================
+     TRICKS & TIPS SECTION
+=================================== -->
+
+<section id="learn" class="tab-content">
+
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">LEARN SOMETHING NEW</p>
+      <h2>Tricks & Tips</h2>
+    </div>
+
+    <span class="section-note">Simple lessons for smarter learning</span>
+  </div>
+
+  <!-- Introduction -->
+  <div class="learn-hero">
+    <div class="learn-hero-content">
+      <span class="learn-tag">YOUR LEARNING CORNER</span>
+
+      <h2>Understand the market, <span>one trick at a time.</span></h2>
+
+      <p>
+        Learn useful stock market calculations, understand important
+        market terms and discover simple investing concepts.
+        No complicated explanations.
+      </p>
+    </div>
+
+    <div class="learn-hero-icon">✦</div>
+  </div>
+
+  <!-- Learning statistics -->
+  <div class="learn-stats">
+
+    <div class="learn-stat">
+      <div class="learn-stat-icon">🧮</div>
+      <div>
+        <h3>06</h3>
+        <p>Calculation tricks</p>
+      </div>
+    </div>
+
+    <div class="learn-stat">
+      <div class="learn-stat-icon">📊</div>
+      <div>
+        <h3>02</h3>
+        <p>Market basics</p>
+      </div>
+    </div>
+
+    <div class="learn-stat">
+      <div class="learn-stat-icon">🌱</div>
+      <div>
+        <h3>02</h3>
+        <p>Smart habits</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Search and category -->
+  <div class="panel learn-panel">
+
+    <div class="panel-heading">
+      <div>
+        <p class="eyebrow">FIND WHAT YOU NEED</p>
+        <h3>Explore learning topics</h3>
+      </div>
+
+      <span class="panel-chip">10 lessons</span>
+    </div>
+
+    <div class="learn-controls">
+
+      <input
+        type="text"
+        id="tipSearch"
+        placeholder="Search tricks, formulas or topics..."
+      />
+
+      <select id="tipCategory">
+        <option value="All">All categories</option>
+        <option value="Calculations">Calculations</option>
+        <option value="Market Basics">Market basics</option>
+        <option value="Smart Habits">Smart habits</option>
+      </select>
+
+    </div>
+
+  </div>
+
+  <!-- Learning cards -->
+  <div id="tipsGrid" class="tips-grid"></div>
+
+  <!-- Learning reminder -->
+  <div class="learn-reminder">
+    <span>💡</span>
+    <div>
+      <strong>A little knowledge goes a long way.</strong>
+      <p>
+        Understand the concept before making a trading decision.
+        These lessons are for educational purposes, not investment advice.
+      </p>
+    </div>
+  </div>
+
+</section>
+  </main>
+  <footer><span class="footer-mark">stocktracker</span><p>Stock Price Tracker Mini-Project <span>·</span> DSA in C <span>·</span> Flask <span>·</span> MySQL <span>·</span> Chart.js</p></footer>
+  <script src="app.js"></script>
+</body>
+</html>
